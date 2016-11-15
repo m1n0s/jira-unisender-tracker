@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+
+  "name": "JIRA UniSender Tracker",
+  "description": "Kurwa description here",
+  "version": "0.0.1",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html",
+    "default_title": "Check my tasks"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://jira.unisender.com/browse/*"],
+      "css": ["content.css"],
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": [
+    "activeTab",
+    "storage"
+  ]
+}

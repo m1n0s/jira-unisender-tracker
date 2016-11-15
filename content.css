@@ -1,0 +1,44 @@
+/*
+body {
+    background-color: red!important;
+}*/
+
+.report-btn {
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+    color: white;
+    display: inline-block;
+    width: calc(100% - 2 * 10px);
+    padding: 5px 10px;
+    border: none;
+    font-size: 1.3em;
+    outline: none;
+    cursor: pointer;
+}
+
+.report-btn.add {
+    background-color: green;
+}
+
+.report-btn.add:hover {
+    background-color: forestgreen;
+}
+
+.report-btn.add:active {
+    background-color: darkgreen;
+}
+
+.report-btn.remove {
+    background-color: red;
+}
+
+.report-btn.remove:hover {
+    background-color: indianred;
+}
+
+.report-btn.remove:active {
+    background-color: darkred;
+}
+
+
