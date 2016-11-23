@@ -5,22 +5,15 @@ const USER_KEY = `UniSenderJIRATrackerUser`;
 const NEW_USER_SCREEN = $('new-user-screen');
 const NEW_USER_FORM = $('new-user-form');
 
-
 const TASKS_SCREEN = $('tasks-screen');
-
 const TASKS_CONTAINER = $('tasks');
-const COPY_RESULT = $('copy-result');
-const COPY_BTN = $('copy-to-clipboard');
+const TASKS_USERNAME = $('username');
+const TASKS_COPY_BTN = $('copy-to-clipboard');
+const TASKS_COPY_RESULT = $('copy-result');
 
 
 getUserFromStorage(USER_KEY, user => {
 
-  /*user = {
-   name: 'lhrabobetskyi',
-   autoTrackMode: false,
-   ignoreAutoTrackTasks: [],
-   tasks: {}
-   };*/
   if (user && Object.keys(user).length) {
     addTasksFromStoreToContainer(TASKS_CONTAINER, user);
   } else {
@@ -30,7 +23,7 @@ getUserFromStorage(USER_KEY, user => {
 });
 
 
-COPY_BTN.addEventListener('click', event => {
+TASKS_COPY_BTN.addEventListener('click', event => {
 
   event.preventDefault();
   let range = document.createRange();
@@ -38,10 +31,10 @@ COPY_BTN.addEventListener('click', event => {
   window.getSelection().addRange(range);
 
   let success = document.execCommand('copy');
-  COPY_RESULT.textContent = `${success ? 'Copied!' : 'Error.'}`;
+  TASKS_COPY_RESULT.textContent = `${success ? 'Copied!' : 'Error.'}`;
 
   setTimeout(() => {
-    COPY_RESULT.textContent = '';
+    TASKS_COPY_RESULT.textContent = '';
   }, 1500);
 
   window.getSelection().removeAllRanges();
@@ -79,7 +72,7 @@ function addTasksFromStoreToContainer(container, user) {
   hide(NEW_USER_SCREEN);
   show(TASKS_SCREEN);
 
-  const {tasks} = user;
+  const {tasks, name} = user;
   let output;
 
   if (tasks && Object.keys(tasks).length) {
@@ -91,9 +84,11 @@ function addTasksFromStoreToContainer(container, user) {
   } else {
 
     output = `You haven't tracked tasks yet`;
-    hide(COPY_BTN);
+    hide(TASKS_COPY_BTN);
 
   }
+
+  TASKS_USERNAME.textContent = name;
 
   let text = document.createTextNode(output);
   container.appendChild(text);
@@ -107,10 +102,6 @@ function createNewUser() {
 
 function $(id) {
   return document.getElementById(id);
-}
-
-function generateUserKey(user) {
-  return `${user && user.name || 'UniUser'}UniSenderJIRATracker`;
 }
 
 function hide(el) {

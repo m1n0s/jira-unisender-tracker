@@ -1,18 +1,11 @@
-/*
-body {
-    background-color: red!important;
-}*/
-
 .report-btn {
-    margin-top: 10px;
-    margin-left: 10px;
     border-radius: 5px;
     color: white;
     display: inline-block;
-    width: calc(100% - 2 * 10px);
-    padding: 5px 10px;
+    width: 150px;
+    padding: 1px 0 2px;
     border: none;
-    font-size: 1.3em;
+    font-size: 1em;
     outline: none;
     cursor: pointer;
 }
