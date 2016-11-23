@@ -8,12 +8,36 @@
             font-size: 14px;
         }
     </style>
-    <script src='popup.js'></script>
+    <script src='popup.js' defer></script>
 </head>
 <body>
-<pre id='tasks'></pre>
-<button id='copy-to-clipboard'>Copy to clipboard</button>
-<div id='copy-result'></div>
+
+<section id="new-user-screen" style='display: none;'>
+    <h3>Hello, UniUser!</h3>
+    <p>Please choose mode for tracking:</p>
+    <form action='' id='new-user-form'>
+        <label for="mode-manual">
+            Manual tracking
+            <input type='radio' name='mode' id='mode-manual' required>
+        </label>
+        <label for="mode-auto">
+            Automatic tracking
+            <input type='radio' name='mode' id='mode-auto' required>
+        </label>
+        <label for="name">Your username in UniSender JIRA system</label>
+        <input type="text" placeholder='lhrabovetskyi' id='name' required>
+
+        <button type='submit'>Start tracking!</button>
+    </form>
+</section>
+
+<section id='tasks-screen'>
+    <h3>Hello, <span id="username">UniUser</span>!</h3>
+    <pre id='tasks'></pre>
+    <button id='copy-to-clipboard'>Copy to clipboard</button>
+    <div id='copy-result'></div>
+</section>
+
 
 </body>
 </html>
