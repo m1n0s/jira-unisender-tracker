@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  const USER = 'lhrabovetskyi';
+  const STORE_KEY = `${USER}UniSenderJIRATracker`;
+
   const tasksContainer = $('tasks');
   const copyResult = $('copy-result');
   const copyBtn = $('copy-to-clipboard');
-  //const userKey = 'JIRAUniSenderTrackerUser';
-  const storeKey = 'JIRAUniSenderTracker';
-  //const user = getUserFromStorage(userKey);
 
-  addTasksFromStoreToContainer(tasksContainer, storeKey);
+  addTasksFromStoreToContainer(tasksContainer, STORE_KEY);
 
   copyBtn.addEventListener('click', (event) => {
 
