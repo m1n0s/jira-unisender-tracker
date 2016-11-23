@@ -1,14 +1,14 @@
 'use strict';
 
-const USER = 'lhrabovetskyi';
-const STORE_KEY = `${USER}UniSenderJIRATracker`;
+const USER_KEY = `UniSenderJIRATrackerUser`;
+
 
 const ADD_TEXT = 'Add this task for report';
 const REMOVE_TEXT = 'Remove this task from report';
 const ADD_CLASS = 'add';
 const REMOVE_CLASS = 'remove';
 
-const BTN_ID = `${USER}-tasks-toggle`;
+const BTN_ID = 'tasks-toggle-btn';
 
 const viewIssueSidebar = $('viewissuesidebar');
 const peopleModule = $('peoplemodule');
@@ -18,9 +18,7 @@ const CURRENT_TASK_KEY = Object.keys(CURRENT_TASK)[0];
 
 let alreadyAdded = false;
 
-getDataFromStorage(data => {
-  renderButton(data);
-});
+getUserFromStorage(USER_KEY, user => renderButton(user));
 
 function getCurrentTask() {
   let main = document.querySelector('.aui-page-header-main');
@@ -32,13 +30,15 @@ function getCurrentTask() {
   }
 }
 
-function getDataFromStorage(callback) {
-  chrome.storage.sync.get(STORE_KEY, data => {
-    callback(data[STORE_KEY] || {});
-  });
+function getUserFromStorage(key, callback) {
+  chrome.storage.sync.get(key, data => callback(data[key]));
 }
 
-function renderButton(tasks) {
+function renderButton(user) {
+
+  if (!user) return;
+
+  let {tasks} = user;
 
   alreadyAdded = Object.keys(tasks).some(key => key === CURRENT_TASK_KEY);
 
@@ -63,10 +63,10 @@ function renderButton(tasks) {
         Object.assign(tasks, CURRENT_TASK);
       }
 
-      chrome.storage.sync.set({[STORE_KEY]: tasks}, () => {
-        getDataFromStorage(data => {
-          renderButton(data);
-        });
+      let updatedUser = Object.assign({}, user, {tasks});
+
+      chrome.storage.sync.set({[USER_KEY]: updatedUser}, () => {
+        getUserFromStorage(USER_KEY, user => renderButton(user));
       });
 
     }, false);
