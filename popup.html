@@ -31,10 +31,34 @@
     </form>
 </section>
 
+<section id="user-settings" style='display: none;'>
+    <h3>Hello, <span id="settings-username">UniUser</span>!</h3>
+
+    <form action='' id='settings-form'>
+        <label for="mode-manual">
+            Manual tracking
+            <input type='radio' name='mode' id='settings-mode-manual' required>
+        </label>
+        <label for="mode-auto">
+            Automatic tracking
+            <input type='radio' name='mode' id='settings-mode-auto' required>
+        </label>
+        <label for="name">Your username in UniSender JIRA system</label>
+        <input type="text" placeholder='' id='settings-name' required>
+
+        <button type='submit'>Change settings</button>
+    </form>
+
+    <button id='settings-back'>back</button>
+
+</section>
+
 <section id='tasks-screen'>
     <h3>Hello, <span id="username">UniUser</span>!</h3>
+    <button id='go-to-settings'>settings</button>
     <pre id='tasks'></pre>
     <button id='copy-to-clipboard'>Copy to clipboard</button>
+    <button id='send-email'>send mail</button>
     <div id='copy-result'></div>
 </section>
 

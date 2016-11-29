@@ -8,8 +8,16 @@ const NEW_USER_FORM = $('new-user-form');
 const TASKS_SCREEN = $('tasks-screen');
 const TASKS_CONTAINER = $('tasks');
 const TASKS_USERNAME = $('username');
+const TASKS_SETTINGS = $('go-to-settings');
 const TASKS_COPY_BTN = $('copy-to-clipboard');
+const TASKS_MAIL_BTN = $('send-email');
 const TASKS_COPY_RESULT = $('copy-result');
+
+const SETTINGS_SCREEN = $('user-settings');
+const SETTINGS_USER = $('settings-username');
+const SETTINGS_FORM = $('settings-form');
+const SETTINGS_BACK = $('settings-back');
+
 
 
 getUserFromStorage(USER_KEY, user => {
@@ -63,12 +71,72 @@ NEW_USER_FORM.addEventListener('submit', event => {
 
 }, false);
 
+TASKS_SETTINGS.addEventListener('click', event => {
+  event.preventDefault();
+  event.stopPropagation();
+
+  getUserFromStorage(USER_KEY, user => {
+
+    hide(TASKS_SCREEN);
+    show(SETTINGS_SCREEN);
+
+    SETTINGS_USER.textContent = user.name;
+
+    let manualRadio = SETTINGS_FORM.querySelector('#settings-mode-manual');
+    let autoRadio = SETTINGS_FORM.querySelector('#settings-mode-auto');
+    let nameInput = SETTINGS_FORM.querySelector('#settings-name');
+
+    if (user.autoTrackMode) {
+      autoRadio.checked = true;
+    } else {
+      manualRadio.checked = true;
+    }
+
+    nameInput.value = user.name;
+  });
+
+}, false);
+
+SETTINGS_BACK.addEventListener('click', event => {
+  event.preventDefault();
+  event.stopPropagation();
+
+  hide(SETTINGS_SCREEN);
+  show(TASKS_SCREEN);
+
+}, false);
+
+SETTINGS_FORM.addEventListener('submit', event => {
+  event.preventDefault();
+  event.stopPropagation();
+
+  let {target} = event;
+
+  let auto = target[1].checked;
+  let name = target[2].value;
+
+  getUserFromStorage(USER_KEY, user => {
+
+    let updatedUser = Object.assign({}, user, {
+      name,
+      autoTrackMode: auto
+    });
+
+    chrome.storage.sync.set({[USER_KEY]: updatedUser}, () => {
+      addTasksFromStoreToContainer(TASKS_CONTAINER, updatedUser);
+    });
+
+  });
+
+}, false);
+
 function getUserFromStorage(key, callback) {
   chrome.storage.sync.get(key, data => callback(data[key]));
 }
 
 function addTasksFromStoreToContainer(container, user) {
 
+  hide(SETTINGS_SCREEN);
   hide(NEW_USER_SCREEN);
   show(TASKS_SCREEN);
 
@@ -91,8 +159,24 @@ function addTasksFromStoreToContainer(container, user) {
   TASKS_USERNAME.textContent = name;
 
   let text = document.createTextNode(output);
+
+  removeChildren(container);
   container.appendChild(text);
 
+}
+
+TASKS_MAIL_BTN.addEventListener('click', sendEmail, false);
+
+function sendEmail() {
+  getUserFromStorage(USER_KEY, chrome.extension.getBackgroundPage().sendEmail);
+}
+
+
+//fastest method to remove all children http://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
+function removeChildren(el) {
+  while (el.firstChild) {
+    el.removeChild(el.firstChild);
+  }
 }
 
 function createNewUser() {
