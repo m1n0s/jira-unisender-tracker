@@ -60,6 +60,13 @@
             </div>
         </div>
 
+        <div class='stop'>
+            <div class='title'>Stop tracking</div>
+            <div class='stop-action'>
+                <button class='btn danger' id='delete-all'>Remove all user data</button>
+            </div>
+        </div>
+
         <button class='btn' type='submit'>Change settings</button>
     </form>
 
@@ -74,9 +81,22 @@
     </div>
 
     <pre id='tasks'></pre>
-    <button class='btn' id='copy-to-clipboard'>Copy to clipboard</button>
-    <button class='btn' id='send-email'>Send by email</button>
+
+    <div class="space-between">
+
+        <div class="to-left">
+            <button class='btn' id='copy-to-clipboard'>Copy to clipboard</button>
+            <button class='btn' id='send-email'>Send by email</button>
+        </div>
+
+        <div class="to-right">
+            <button class='btn danger' id='delete-tasks'>Delete all</button>
+        </div>
+
+    </div>
+
     <div id='copy-result'></div>
+
 </section>
 
 

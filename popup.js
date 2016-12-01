@@ -11,31 +11,36 @@ const TASKS_USERNAME = $('username');
 const TASKS_SETTINGS = $('go-to-settings');
 const TASKS_COPY_BTN = $('copy-to-clipboard');
 const TASKS_MAIL_BTN = $('send-email');
+const TASKS_DELETE_BTN = $('delete-tasks');
 const TASKS_COPY_RESULT = $('copy-result');
 
 const SETTINGS_SCREEN = $('user-settings');
 const SETTINGS_USER = $('settings-username');
 const SETTINGS_FORM = $('settings-form');
 const SETTINGS_BACK = $('settings-back');
+const SETTINGS_DELETE_ALL_BTN = $('delete-all');
 
 hide(SETTINGS_SCREEN);
 hide(NEW_USER_SCREEN);
 hide(TASKS_SCREEN);
 
-getUserFromStorage(USER_KEY, user => {
+getUserFromStorage(USER_KEY)
+  .then(user => {
 
-  if (user && Object.keys(user).length) {
-    addTasksFromStoreToContainer(TASKS_CONTAINER, user);
-  } else {
-    createNewUser();
-  }
+    console.log(user);
 
-});
+    if (user && Object.keys(user).length) {
+      addTasksFromStoreToContainer(TASKS_CONTAINER, user);
+    } else {
+      showCreateNewUser();
+    }
 
+  });
 
 TASKS_COPY_BTN.addEventListener('click', event => {
 
   event.preventDefault();
+
   let range = document.createRange();
   range.selectNodeContents(TASKS_CONTAINER);
   window.getSelection().addRange(range);
@@ -49,11 +54,11 @@ TASKS_COPY_BTN.addEventListener('click', event => {
 
   window.getSelection().removeAllRanges();
 
-}, false);
+});
 
 NEW_USER_FORM.addEventListener('submit', event => {
+
   event.preventDefault();
-  event.stopPropagation();
 
   let {target} = event;
 
@@ -71,69 +76,99 @@ NEW_USER_FORM.addEventListener('submit', event => {
     addTasksFromStoreToContainer(TASKS_CONTAINER, newUser);
   });
 
-}, false);
+});
 
 TASKS_SETTINGS.addEventListener('click', event => {
   event.preventDefault();
-  event.stopPropagation();
 
-  getUserFromStorage(USER_KEY, user => {
+  getUserFromStorage(USER_KEY)
+    .then(user => {
 
-    hide(TASKS_SCREEN);
-    show(SETTINGS_SCREEN);
+      hide(TASKS_SCREEN);
+      show(SETTINGS_SCREEN);
 
-    SETTINGS_USER.textContent = getTrueName(user.name);
+      SETTINGS_USER.textContent = getTrueName(user.name);
 
-    let manualRadio = SETTINGS_FORM.querySelector('#settings-mode-manual');
-    let autoRadio = SETTINGS_FORM.querySelector('#settings-mode-auto');
-    let nameInput = SETTINGS_FORM.querySelector('#settings-name');
+      let manualRadio = SETTINGS_FORM.querySelector('#settings-mode-manual');
+      let autoRadio = SETTINGS_FORM.querySelector('#settings-mode-auto');
+      let nameInput = SETTINGS_FORM.querySelector('#settings-name');
 
-    if (user.autoTrackMode) {
-      autoRadio.checked = true;
-    } else {
-      manualRadio.checked = true;
-    }
+      if (user.autoTrackMode) {
+        autoRadio.checked = true;
+      } else {
+        manualRadio.checked = true;
+      }
 
-    nameInput.value = user.name;
-  });
+      nameInput.value = user.name;
+    });
 
-}, false);
+});
 
 SETTINGS_BACK.addEventListener('click', event => {
   event.preventDefault();
-  event.stopPropagation();
 
   hide(SETTINGS_SCREEN);
   show(TASKS_SCREEN);
 
-}, false);
+});
 
 SETTINGS_FORM.addEventListener('submit', event => {
   event.preventDefault();
-  event.stopPropagation();
 
   let {target} = event;
 
   let name = target[0].value;
   let auto = target[2].checked;
 
-  getUserFromStorage(USER_KEY, user => {
+  getUserFromStorage(USER_KEY)
+    .then(user => {
 
-    let updatedUser = Object.assign({}, user, {
-      name,
-      autoTrackMode: auto
+      let updatedUser = Object.assign({}, user, {
+        name,
+        autoTrackMode: auto
+      });
+
+      chrome.storage.sync.set({[USER_KEY]: updatedUser}, () => {
+        addTasksFromStoreToContainer(TASKS_CONTAINER, updatedUser);
+      });
+
     });
 
-    chrome.storage.sync.set({[USER_KEY]: updatedUser}, () => {
-      addTasksFromStoreToContainer(TASKS_CONTAINER, updatedUser);
+});
+
+TASKS_DELETE_BTN.addEventListener('click', event => {
+
+  event.preventDefault();
+
+  getUserFromStorage(USER_KEY)
+    .then(user => {
+
+      let updatedUser = Object.assign({}, user, {
+        tasks: {}
+      });
+
+      chrome.storage.sync.set({[USER_KEY]: updatedUser}, () => {
+        addTasksFromStoreToContainer(TASKS_CONTAINER, updatedUser);
+      });
+
     });
 
+});
+
+SETTINGS_DELETE_ALL_BTN.addEventListener('click', event => {
+  event.preventDefault();
+
+  chrome.storage.sync.set({[USER_KEY]: null}, () => {
+    showCreateNewUser();
   });
+});
 
-}, false);
+TASKS_MAIL_BTN.addEventListener('click', sendEmail, false);
 
-function getUserFromStorage(key, callback) {
-  chrome.storage.sync.get(key, data => callback(data[key]));
+function getUserFromStorage(key) {
+  return new Promise(resolve => {
+    chrome.storage.sync.get(key, data => resolve(data[key]))
+  });
 }
 
 function addTasksFromStoreToContainer(container, user) {
@@ -143,6 +178,7 @@ function addTasksFromStoreToContainer(container, user) {
 
   hide(TASKS_MAIL_BTN);
   hide(TASKS_COPY_BTN);
+  hide(TASKS_DELETE_BTN);
 
   show(TASKS_SCREEN);
 
@@ -158,6 +194,7 @@ function addTasksFromStoreToContainer(container, user) {
 
     show(TASKS_COPY_BTN);
     show(TASKS_MAIL_BTN);
+    show(TASKS_DELETE_BTN);
 
   } else {
     output = `You haven't tracked tasks yet`;
@@ -172,21 +209,16 @@ function addTasksFromStoreToContainer(container, user) {
 
 }
 
-TASKS_MAIL_BTN.addEventListener('click', sendEmail, false);
-
 function sendEmail() {
-  getUserFromStorage(USER_KEY, chrome.extension.getBackgroundPage().sendEmail);
+  getUserFromStorage(USER_KEY)
+    .then(chrome.extension.getBackgroundPage().sendEmail);
 }
 
-
-//fastest method to remove all children http://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
 function removeChildren(el) {
-  while (el.firstChild) {
-    el.removeChild(el.firstChild);
-  }
+  while (el.firstChild) el.firstChild.remove()
 }
 
-function createNewUser() {
+function showCreateNewUser() {
   hide(TASKS_SCREEN);
   hide(SETTINGS_SCREEN);
   show(NEW_USER_SCREEN);
@@ -205,9 +237,8 @@ function show(el) {
 }
 
 function getTrueName(name) {
-  return `${name.charAt(0).toUpperCase()}. ${name.charAt(1).toUpperCase()}${name.slice(2)}`
+  return name && `${name.charAt(0).toUpperCase()}. ${name.charAt(1).toUpperCase()}${name.slice(2)}`
 }
-
 
 
 

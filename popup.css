@@ -57,7 +57,7 @@ section {
 .input-field .label {
     display: flex;
     flex-basis: 40%;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .input-field .name-input {
@@ -68,6 +68,31 @@ section {
     border-radius: 5px;
     border: 1px solid lightgray;
     padding-left: 5px;
+}
+
+.stop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 15px 0;
+    padding-top: 15px;
+    border-top: 1px dashed #6FC6FF;
+}
+
+.stop .title {
+    display: flex;
+    flex-basis: 40%;
+    font-size: 14px;
+}
+
+.stop .stop-action {
+    display: flex;
+    flex-basis: 55%;
+}
+
+.stop .stop-action .btn {
+    width: 100%;
 }
 
 
@@ -131,6 +156,12 @@ section {
     border-radius: 0 4px 4px 0;
 }
 
+.space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .btn {
     border: none;
     background-color: #2ecc71;
@@ -144,3 +175,12 @@ section {
 .btn:hover {
     background-color: #48E68B;
 }
+
+.btn.danger {
+    background-color: #e74c3c;
+}
+
+.btn.danger:hover {
+    background-color: #FF6656;
+}
+

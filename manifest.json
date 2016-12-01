@@ -2,19 +2,21 @@
   "manifest_version": 2,
 
   "name": "JIRA UniSender Tracker",
-  "description": "Kurwa description here",
+  "description": "Tracking tasks by UniSender employees in JIRA for monthly accounting report.",
   "version": "0.0.1",
 
   "browser_action": {
-    "default_icon": "icon.png",
     "default_popup": "popup.html",
     "default_title": "Check my tasks"
   },
-
+  "icons": {
+    "16": "icons/uni-jira-16.png",
+    "48": "icons/uni-jira-48.png",
+    "128": "icons/uni-jira-128.png"
+  },
   "background": {
     "scripts": ["background.js"]
   },
-
   "content_scripts": [
     {
       "matches": ["https://jira.unisender.com/browse/*"],
