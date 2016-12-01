@@ -18,7 +18,9 @@ const SETTINGS_USER = $('settings-username');
 const SETTINGS_FORM = $('settings-form');
 const SETTINGS_BACK = $('settings-back');
 
-
+hide(SETTINGS_SCREEN);
+hide(NEW_USER_SCREEN);
+hide(TASKS_SCREEN);
 
 getUserFromStorage(USER_KEY, user => {
 
@@ -55,8 +57,8 @@ NEW_USER_FORM.addEventListener('submit', event => {
 
   let {target} = event;
 
-  let auto = target[1].checked;
-  let name = target[2].value;
+  let name = target[0].value;
+  let auto = target[2].checked;
 
   let newUser = {
     name,
@@ -80,7 +82,7 @@ TASKS_SETTINGS.addEventListener('click', event => {
     hide(TASKS_SCREEN);
     show(SETTINGS_SCREEN);
 
-    SETTINGS_USER.textContent = user.name;
+    SETTINGS_USER.textContent = getTrueName(user.name);
 
     let manualRadio = SETTINGS_FORM.querySelector('#settings-mode-manual');
     let autoRadio = SETTINGS_FORM.querySelector('#settings-mode-auto');
@@ -112,8 +114,8 @@ SETTINGS_FORM.addEventListener('submit', event => {
 
   let {target} = event;
 
-  let auto = target[1].checked;
-  let name = target[2].value;
+  let name = target[0].value;
+  let auto = target[2].checked;
 
   getUserFromStorage(USER_KEY, user => {
 
@@ -138,7 +140,12 @@ function addTasksFromStoreToContainer(container, user) {
 
   hide(SETTINGS_SCREEN);
   hide(NEW_USER_SCREEN);
+
+  hide(TASKS_MAIL_BTN);
+  hide(TASKS_COPY_BTN);
+
   show(TASKS_SCREEN);
+
 
   const {tasks, name} = user;
   let output;
@@ -149,14 +156,14 @@ function addTasksFromStoreToContainer(container, user) {
       .map(key => `${key} - ${tasks[key]}`)
       .join('\n');
 
+    show(TASKS_COPY_BTN);
+    show(TASKS_MAIL_BTN);
+
   } else {
-
     output = `You haven't tracked tasks yet`;
-    hide(TASKS_COPY_BTN);
-
   }
 
-  TASKS_USERNAME.textContent = name;
+  TASKS_USERNAME.textContent = getTrueName(name);
 
   let text = document.createTextNode(output);
 
@@ -181,6 +188,7 @@ function removeChildren(el) {
 
 function createNewUser() {
   hide(TASKS_SCREEN);
+  hide(SETTINGS_SCREEN);
   show(NEW_USER_SCREEN);
 }
 
@@ -189,11 +197,15 @@ function $(id) {
 }
 
 function hide(el) {
-  return el.style.display = 'none';
+  el.style.display = 'none';
 }
 
 function show(el) {
-  el.style.display = 'block';
+  el.style.display = el.tagName === 'BUTTON' ? 'inline-block' : 'block';
+}
+
+function getTrueName(name) {
+  return `${name.charAt(0).toUpperCase()}. ${name.charAt(1).toUpperCase()}${name.slice(2)}`
 }
 
 

@@ -2,63 +2,80 @@
 <html>
 <head>
     <title>JIRA UniSender Tracker</title>
-    <style>
-        pre {
-            font-family: Helvetica, Arial, sans-serif;
-            font-size: 14px;
-        }
-    </style>
+
+    <link rel='stylesheet' href='popup.css'>
     <script src='popup.js' defer></script>
 </head>
 <body>
 
-<section id="new-user-screen" style='display: none;'>
-    <h3>Hello, UniUser!</h3>
-    <p>Please choose mode for tracking:</p>
-    <form action='' id='new-user-form'>
-        <label for="mode-manual">
-            Manual tracking
-            <input type='radio' name='mode' id='mode-manual' required>
-        </label>
-        <label for="mode-auto">
-            Automatic tracking
-            <input type='radio' name='mode' id='mode-auto' required>
-        </label>
-        <label for="name">Your username in UniSender JIRA system</label>
-        <input type="text" placeholder='lhrabovetskyi' id='name' required>
+<section id='new-user-screen' style='display: none;'>
 
-        <button type='submit'>Start tracking!</button>
+    <div class='split-heading'>
+        <h3 class='header-w-btn'>Hello, new UniUser!</h3>
+    </div>
+
+    <form action='' id='new-user-form'>
+
+        <div class='input-field'>
+            <label for='name'>UniSender account name</label>
+            <input type='text' class='name-input' placeholder='lhrabovetskyi' id='name' required>
+        </div>
+
+        <div class='switch-field'>
+            <div class='switch-title'>Tracking mode</div>
+            <div class='switch-inputs'>
+                <input type='radio' id='mode-manual' name='mode' checked/>
+                <label for='mode-manual'>Manual</label>
+                <input type='radio' id='mode-auto' name='mode'/>
+                <label for='mode-auto'>Auto</label>
+            </div>
+        </div>
+
+        <button class='btn' type='submit'>Start tracking!</button>
     </form>
 </section>
 
-<section id="user-settings" style='display: none;'>
-    <h3>Hello, <span id="settings-username">UniUser</span>!</h3>
+<section id='user-settings' style='display: none;'>
+    <div class='split-heading'>
+        <h3 class='header-w-btn'><span id='settings-username'>UniUser</span>&nbsp;Settings</h3>
+        <button id='settings-back' class='settings-btn'>
+            <img src='data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDUxMiA1MTIiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48Zz48cGF0aCBkPSJNMTI5LDI2Ni41YzIuNiwwLDUuMy0xLDcuMy0zbDI1NC0yNDUuNWM0LjItNCw0LjMtMTAuNywwLjMtMTQuOWMtNC00LjItMTAuNy00LjMtMTQuOS0wLjNsLTI1NCwyNDUuNSAgIGMtNC4yLDQtNC4zLDEwLjctMC4zLDE0LjlDMTIzLjUsMjY1LjUsMTI2LjIsMjY2LjUsMTI5LDI2Ni41eiIgZmlsbD0iIzZBNkU3QyIvPjxwYXRoIGQ9Ik0zODMsNTEyYzIuOCwwLDUuNS0xLjEsNy42LTMuMmM0LTQuMiwzLjktMTAuOS0wLjMtMTQuOWwtMjU0LTI0NS41Yy00LjItNC0xMC45LTMuOS0xNC45LDAuMyAgIGMtNCw0LjItMy45LDEwLjksMC4zLDE0LjlsMjU0LDI0NS41QzM3Ny43LDUxMSwzODAuNCw1MTIsMzgzLDUxMnoiIGZpbGw9IiM2QTZFN0MiLz48L2c+PC9zdmc+' alt='chevron left image'>
+        </button>
+    </div>
 
     <form action='' id='settings-form'>
-        <label for="mode-manual">
-            Manual tracking
-            <input type='radio' name='mode' id='settings-mode-manual' required>
-        </label>
-        <label for="mode-auto">
-            Automatic tracking
-            <input type='radio' name='mode' id='settings-mode-auto' required>
-        </label>
-        <label for="name">Your username in UniSender JIRA system</label>
-        <input type="text" placeholder='' id='settings-name' required>
 
-        <button type='submit'>Change settings</button>
+        <div class='input-field'>
+            <label for='name'>UniSender account name</label>
+            <input type='text' class='name-input' placeholder='' id='settings-name' required>
+        </div>
+
+        <div class='switch-field'>
+            <div class='switch-title'>Tracking mode</div>
+            <div class='switch-inputs'>
+                <input type='radio' id='settings-mode-manual' name='mode' checked/>
+                <label for='settings-mode-manual'>Manual</label>
+                <input type='radio' id='settings-mode-auto' name='mode'/>
+                <label for='settings-mode-auto'>Auto</label>
+            </div>
+        </div>
+
+        <button class='btn' type='submit'>Change settings</button>
     </form>
-
-    <button id='settings-back'>back</button>
 
 </section>
 
 <section id='tasks-screen'>
-    <h3>Hello, <span id="username">UniUser</span>!</h3>
-    <button id='go-to-settings'>settings</button>
+    <div class='split-heading'>
+        <h3 class='header-w-btn'>Hello,&nbsp;<span id='username'>UniUser</span>!</h3>
+        <button id='go-to-settings' class='settings-btn'>
+            <img src='data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDUxMiA1MTIiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48Zz48cGF0aCBkPSJNMjU2LDE1My41YzU2LjUsMCwxMDIuNSw0NiwxMDIuNSwxMDIuNXMtNDYsMTAyLjUtMTAyLjUsMTAyLjVzLTEwMi41LTQ2LTEwMi41LTEwMi41ICAgUzE5OS41LDE1My41LDI1NiwxNTMuNSBNMjU2LDEzMS41Yy02OC42LDAtMTI0LjUsNTUuOC0xMjQuNSwxMjQuNVMxODcuNCwzODAuNSwyNTYsMzgwLjVTMzgwLjUsMzI0LjYsMzgwLjUsMjU2ICAgUzMyNC42LDEzMS41LDI1NiwxMzEuNUwyNTYsMTMxLjV6IiBmaWxsPSIjNkE2RTdDIi8+PHBhdGggZD0iTTI3OC40LDIybDEwLjEsNTMuOGMxLjUsOC4xLDcuNSwxNC43LDE1LjQsMTcuMWMxMS41LDMuNCwyMi41LDcuOSwzMi41LDEzLjNjMy4zLDEuOCw2LjksMi42LDEwLjQsMi42ICAgYzQuNCwwLDguNy0xLjMsMTIuNC0zLjhsNDUuOC0zMS40bDMzLjIsMzMuMkw0MDcsMTUyLjZjLTQuNyw2LjgtNS4xLDE1LjYtMS4yLDIyLjljNS4zLDkuOCw5LjcsMjAuNCwxMywzMS42ICAgYzIuNCw3LjksOC45LDEzLjgsMTcsMTUuM2w1NC4xLDEwLjJ2NDYuOWwtNTQuMSwxMC4xYy04LjEsMS41LTE0LjcsNy40LTE3LDE1LjNjLTMuNCwxMS40LTcuOSwyMi4yLTEzLjMsMzIuMiAgIGMtMy45LDcuMy0zLjUsMTYuMSwxLjIsMjIuOWwzMSw0NS4zbC0zMy4yLDMzLjFMMzU5LDQwNy4yYy0zLjctMi42LTguMS0zLjgtMTIuNC0zLjhjLTMuNiwwLTcuMSwwLjktMTAuNCwyLjYgICBjLTEwLDUuNC0yMC45LDkuOC0zMi4yLDEzLjFjLTcuOSwyLjMtMTMuOSw4LjktMTUuNCwxNy4xTDI3OC41LDQ5MGgtNDYuOWwtMTAuMi01NC40Yy0xLjUtOC03LjMtMTQuNi0xNS4yLTE3ICAgYy0xMC45LTMuNC0yMS4zLTcuNy0zMC45LTEyLjljLTMuMy0xLjgtNi45LTIuNi0xMC41LTIuNmMtNC40LDAtOC43LDEuMy0xMi40LDMuOGwtNDQuOSwzMC43bC0zMy4yLTMzLjJsMzAuNy00NC45ICAgYzQuNi02LjgsNS4xLTE1LjYsMS4yLTIyLjljLTUuNC05LjktOS44LTIwLjYtMTMuMS0zMS44Yy0yLjQtNy45LTguOS0xMy44LTE3LTE1LjNMMjIsMjc5LjR2LTQ2LjlsNTQuMS0xMC4xICAgYzguMS0xLjUsMTQuNi03LjQsMTctMTUuM2MzLjMtMTEsNy42LTIxLjUsMTIuOC0zMS4yYzMuOS03LjIsMy40LTE2LTEuMi0yMi44bC0zMS4xLTQ1LjVsMzMuMi0zMy4ybDQ1LjIsMzAuOSAgIGMzLjcsMi42LDguMSwzLjgsMTIuNCwzLjhjMy42LDAsNy4yLTAuOSwxMC41LTIuN2M5LjctNS4zLDIwLjItOS43LDMxLjItMTNjNy44LTIuNCwxMy43LTguOSwxNS4yLTE3TDIzMS41LDIySDI3OC40IE0yODYuMSwwICAgaC02Mi4yYy01LjksMC0xMS41LDQuNy0xMi41LDEwLjRsLTExLjYsNjJjLTEyLjMsMy44LTI0LjIsOC43LTM1LjMsMTQuN2wtNTEuNS0zNS4zYy0yLjEtMS40LTQuNi0yLjEtNy4xLTIuMSAgIGMtMy40LDAtNi44LDEuMi05LjEsMy42bC00NCw0NGMtNC4xLDQuMS00LjgsMTEuNC0xLjUsMTYuMmwzNS41LDUxLjhjLTYsMTEuMS0xMC44LDIzLTE0LjUsMzUuM2wtNjEuNywxMS42ICAgQzQuNywyMTMuNCwwLDIxOSwwLDIyNC44VjI4N2MwLDUuOSw0LjcsMTEuNSwxMC40LDEyLjVMNzIsMzExLjFjMy44LDEyLjYsOC43LDI0LjcsMTQuOCwzNmwtMzUuMSw1MS4zYy0zLjMsNC44LTIuNiwxMi4xLDEuNSwxNi4yICAgbDQ0LDQ0YzIuNCwyLjQsNS44LDMuNiw5LjEsMy42YzIuNSwwLDUtMC43LDcuMS0yLjFsNTEuMy0zNS4xYzExLDYsMjIuNywxMC44LDM0LjksMTQuNmwxMS42LDYyYzEuMSw1LjcsNi43LDEwLjQsMTIuNSwxMC40aDYyLjIgICBjNS45LDAsMTEuNS00LjcsMTIuNS0xMC40bDExLjUtNjEuNGMxMi43LTMuNywyNC45LTguNywzNi40LTE0LjhsNTEuOSwzNS41YzIuMSwxLjQsNC42LDIuMSw3LjEsMi4xYzMuNCwwLDYuOC0xLjIsOS4xLTMuNmw0NC00NCAgIGM0LjEtNC4xLDQuOC0xMS40LDEuNS0xNi4ybC0zNS4zLTUxLjZjNi4yLTExLjUsMTEuMy0yMy43LDE1LjEtMzYuNGw2MS42LTExLjZjNS43LTEuMSwxMC40LTYuNywxMC40LTEyLjV2LTYyLjIgICBjMC01LjktNC43LTExLjUtMTAuNC0xMi41bC02MS43LTExLjZjLTMuNy0xMi41LTguNy0yNC40LTE0LjctMzUuN2wzNS43LTUyLjJjMy4zLTQuOCwyLjYtMTIuMS0xLjUtMTYuMmwtNDQtNDQgICBjLTIuNC0yLjQtNS44LTMuNi05LjEtMy42Yy0yLjUsMC01LDAuNy03LjEsMi4xbC01Mi4yLDM1LjdjLTExLjYtNi4yLTIzLjktMTEuMy0zNi44LTE1bC0xMS41LTYxLjRDMjk3LjYsNC43LDI5MiwwLDI4Ni4xLDAgICBMMjg2LjEsMHoiIGZpbGw9IiM2QTZFN0MiLz48L2c+PC9zdmc+' alt='gear image'>
+        </button>
+    </div>
+
     <pre id='tasks'></pre>
-    <button id='copy-to-clipboard'>Copy to clipboard</button>
-    <button id='send-email'>send mail</button>
+    <button class='btn' id='copy-to-clipboard'>Copy to clipboard</button>
+    <button class='btn' id='send-email'>Send by email</button>
     <div id='copy-result'></div>
 </section>
 

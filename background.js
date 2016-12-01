@@ -8,7 +8,7 @@ function sendEmail(user) {
     .join('\n');
 
   let options = {
-    url: 'mailto:lhrab@adf.com?body='+ encodeURI(output),
+    url: 'mailto:lhrabovetskiy@unisender.com?body='+ encodeURI(output),
     active: false
   };
 
