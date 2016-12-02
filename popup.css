@@ -184,3 +184,35 @@ section {
     background-color: #FF6656;
 }
 
+.icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-top: -1px;
+
+}
+
+.icon.icon-copy {
+    background-image: url('svg/copy.svg');
+}
+
+.icon.icon-message {
+    background-image: url('svg/message.svg');
+}
+
+.icon.icon-delete {
+    background-image: url('svg/delete.svg');
+}
+
+.icon.icon-cross {
+    background-image: url('svg/cross.svg');
+}
+
+.icon.icon-tick {
+    background-image: url('svg/tick.svg');
+}
+

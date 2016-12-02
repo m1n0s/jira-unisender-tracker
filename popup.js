@@ -37,6 +37,21 @@ getUserFromStorage(USER_KEY)
 
   });
 
+/*app();
+
+async function app() {
+
+  console.time('user');
+
+  let user = await getUserFromStorage(USER_KEY);
+
+  console.log(user);
+
+  console.timeEnd('user');
+
+}*/
+
+
 TASKS_COPY_BTN.addEventListener('click', event => {
 
   event.preventDefault();

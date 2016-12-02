@@ -7,8 +7,10 @@ function sendEmail(user) {
     .map(key => `${key} - ${tasks[key]}`)
     .join('\n');
 
+  let subject = 'Тех. задания от {ИМЯ} за {МЕСЯЦ} {ГОД}';
+
   let options = {
-    url: 'mailto:lhrabovetskiy@unisender.com?body='+ encodeURI(output),
+    url: `mailto:epavliuk@bumazhkin.com?subject=${encodeURI(subject)}&body=${encodeURI(output)}`,
     active: false
   };
 
