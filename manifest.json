@@ -3,7 +3,7 @@
 
   "name": "JIRA UniSender Tracker",
   "description": "Tracking tasks by UniSender employees in JIRA for monthly accounting report.",
-  "version": "1.0.2",
+  "version": "1.0.3",
 
   "browser_action": {
     "default_popup": "popup/popup.html",
