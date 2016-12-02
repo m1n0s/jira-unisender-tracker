@@ -6,7 +6,7 @@
   "version": "1.0.0",
 
   "browser_action": {
-    "default_popup": "popup.html",
+    "default_popup": "popup/popup.html",
     "default_title": "Check my tasks"
   },
   "icons": {
@@ -20,8 +20,8 @@
   "content_scripts": [
     {
       "matches": ["https://jira.unisender.com/browse/*"],
-      "css": ["content.css"],
-      "js": ["content.js"]
+      "css": ["content/content.css"],
+      "js": ["content/content.js"]
     }
   ],
   "permissions": [
