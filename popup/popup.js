@@ -27,8 +27,6 @@ hide(TASKS_SCREEN);
 getUserFromStorage(USER_KEY)
   .then(user => {
 
-    console.log(user);
-
     if (user && Object.keys(user).length) {
       addTasksFromStoreToContainer(TASKS_CONTAINER, user);
     } else {
@@ -63,11 +61,11 @@ TASKS_COPY_BTN.addEventListener('click', event => {
   let success = document.execCommand('copy');
   TASKS_COPY_RESULT.textContent = `${success ? 'Copied!' : 'Error.'}`;
 
+  window.getSelection().removeAllRanges();
+
   setTimeout(() => {
     TASKS_COPY_RESULT.textContent = '';
   }, 1500);
-
-  window.getSelection().removeAllRanges();
 
 });
 
@@ -83,7 +81,6 @@ NEW_USER_FORM.addEventListener('submit', event => {
   let newUser = {
     name,
     autoTrackMode: auto,
-    ignoreAutoTrackTasks: [],
     tasks: {}
   };
 

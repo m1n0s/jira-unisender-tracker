@@ -22,18 +22,20 @@ const CURRENT_ASSIGNEE = getCurrentAssignee();
 
 let alreadyAdded = false;
 
-getUserFromStorage(USER_KEY, user => {
-  if (!user) return;
+getUserFromStorage(USER_KEY)
+  .then(user => {
 
-  if (user.autoTrackMode) {
-    checkTask(user);
-  } else {
-    renderButton(user);
-  }
-});
+    if (user.autoTrackMode) {
+      checkTask(user);
+    } else {
+      renderButton(user);
+    }
+  });
 
-function getUserFromStorage(key, callback) {
-  chrome.storage.sync.get(key, data => callback(data[key]));
+function getUserFromStorage(key) {
+  return new Promise(resolve => {
+    chrome.storage.sync.get(key, data => resolve(data[key]))
+  });
 }
 
 function renderButton(user) {
@@ -77,7 +79,7 @@ function renderButton(user) {
       let updatedUser = Object.assign({}, user, {tasks});
 
       chrome.storage.sync.set({[USER_KEY]: updatedUser}, () => {
-        getUserFromStorage(USER_KEY, user => renderButton(user));
+        getUserFromStorage(USER_KEY).then(user => renderButton(user));
       });
 
     }, false);
@@ -97,18 +99,18 @@ function checkTask(user) {
   let {tasks, name} = user;
 
   alreadyAdded = Object.keys(tasks).some(key => key === CURRENT_TASK_KEY);
-  
+
   let isAssigned = CURRENT_ASSIGNEE === name;
 
   if (alreadyAdded) {
-      renderMessage(ADDED_BEFORE_TEXT);
+    renderMessage(ADDED_BEFORE_TEXT);
   } else {
 
     if (isAssigned) {
 
       let updatedUser = Object.assign({}, user, {tasks: Object.assign({}, tasks, CURRENT_TASK)});
       chrome.storage.sync.set({[USER_KEY]: updatedUser}, () => {
-        getUserFromStorage(USER_KEY, user => renderMessage(ADDED_NOW_TEXT));
+        getUserFromStorage(USER_KEY).then(user => renderMessage(ADDED_NOW_TEXT));
       });
 
     } else {
